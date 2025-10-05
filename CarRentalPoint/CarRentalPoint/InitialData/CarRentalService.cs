@@ -3,60 +3,69 @@ using CarRentalPoint.Entities;
 
 namespace CarRentalPoint.InitialData;
 
-
-// Основной класс сервиса
+/// <summary>
+/// Main service class that provides initial test data for the car rental system
+/// Contains predefined collections of car models, generations, cars, clients, and rental records
+/// </summary>
 public class CarRentalService
 {
+    /// <summary>
+    /// Gets the list of available car models with their specifications
+    /// </summary>
     protected static List<CarModel> CarModels =>
         [
-            new () 
-            { 
-                Name = "Toyota Camry",
-                DriveType = "Передний",
-                SeatsCount = 5, 
-                BodyType = "Седан",
-                CarClass = "D" 
-            },
-            new () 
-            { 
-                Name = "BMW X5",
-                DriveType = "Полный",
-                SeatsCount = 5,
-                BodyType = "Внедорожник",
-                CarClass = "E" 
-            },
-            new() 
-            { 
-                Name = "Honda Civic", 
-                DriveType = "Передний",
-                SeatsCount = 5, 
-                BodyType = "Седан",
-                CarClass = "C" 
-            },
-            new() 
+            new ()
             {
-                Name = "Mercedes E-Class", 
-                DriveType = "Задний",
+                Name = "Toyota Camry",
+                DriveType = "Front-wheel",
                 SeatsCount = 5,
-                BodyType = "Седан",
-                CarClass = "E" 
+                BodyType = "Sedan",
+                CarClass = "D"
             },
-            new() 
+            new ()
+            {
+                Name = "BMW X5",
+                DriveType = "All-wheel",
+                SeatsCount = 5,
+                BodyType = "SUV",
+                CarClass = "E"
+            },
+            new()
+            {
+                Name = "Honda Civic",
+                DriveType = "Front-wheel",
+                SeatsCount = 5,
+                BodyType = "Sedan",
+                CarClass = "C"
+            },
+            new()
+            {
+                Name = "Mercedes E-Class",
+                DriveType = "Rear-wheel",
+                SeatsCount = 5,
+                BodyType = "Sedan",
+                CarClass = "E"
+            },
+            new()
             {
                 Name = "Audi A4",
-                DriveType = "Полный",
+                DriveType = "All-wheel",
                 SeatsCount = 5,
-                BodyType = "Седан",
-                CarClass = "D" 
+                BodyType = "Sedan",
+                CarClass = "D"
             }
         ];
+
+    /// <summary>
+    /// Gets the list of model generations with technical details and rental pricing
+    /// </summary>
     protected static List<ModelGeneration> ModelGenerations =>
         [
             new ()
             {
                 Year = 2020,
                 EngineVolume = 2.5,
-                TransmissionType = "Автомат",
+                TransmissionType = "Automatic",
                 Model = CarModels[0],
                 RentalCostPerHour = 1500
             },
@@ -64,7 +73,7 @@ public class CarRentalService
             {
                 Year = 2021,
                 EngineVolume = 3.0,
-                TransmissionType = "Автомат",
+                TransmissionType = "Automatic",
                 Model = CarModels[1],
                 RentalCostPerHour = 3000
             },
@@ -72,7 +81,7 @@ public class CarRentalService
             {
                 Year = 2019,
                 EngineVolume = 1.8,
-                TransmissionType = "Механика",
+                TransmissionType = "Manual",
                 Model = CarModels[2],
                 RentalCostPerHour = 1000
             },
@@ -80,7 +89,7 @@ public class CarRentalService
             {
                 Year = 2022,
                 EngineVolume = 2.0,
-                TransmissionType = "Автомат",
+                TransmissionType = "Automatic",
                 Model = CarModels[3],
                 RentalCostPerHour = 2500
             },
@@ -88,171 +97,186 @@ public class CarRentalService
             {
                 Year = 2021,
                 EngineVolume = 2.0,
-                TransmissionType = "Автомат",
+                TransmissionType = "Automatic",
                 Model = CarModels[4],
                 RentalCostPerHour = 2000
             }
         ];
+
+    /// <summary>
+    /// Gets the list of physical cars available in the rental fleet
+    /// Each car has a unique license plate, color, and belongs to a specific generation
+    /// </summary>
     public List<Car> Cars =>
         [
             new()
             {
                 LicensePlate = "А001АА",
-                Color = "Черный",
+                Color = "Black",
                 Generation = ModelGenerations[0]
             },
             new()
             {
                 LicensePlate = "В002ВВ",
-                Color = "Белый",
+                Color = "White",
                 Generation = ModelGenerations[0]
             },
             new()
             {
                 LicensePlate = "С003СС",
-                Color = "Синий",
+                Color = "Blue",
                 Generation = ModelGenerations[1]
             },
             new()
             {
                 LicensePlate = "D004DD",
-                Color = "Красный",
+                Color = "Red",
                 Generation = ModelGenerations[1]
             },
             new()
             {
                 LicensePlate = "Е005ЕЕ",
-                Color = "Зеленый",
+                Color = "Green",
                 Generation = ModelGenerations[2]
             },
             new()
             {
                 LicensePlate = "F006FF",
-                Color = "Серый",
+                Color = "Gray",
                 Generation = ModelGenerations[2]
             },
             new()
             {
                 LicensePlate = "G007GG",
-                Color = "Черный",
+                Color = "Black",
                 Generation = ModelGenerations[3]
             },
             new()
             {
                 LicensePlate = "H008HH",
-                Color = "Белый",
+                Color = "White",
                 Generation = ModelGenerations[3]
             },
             new()
             {
                 LicensePlate = "I009II",
-                Color = "Синий",
+                Color = "Blue",
                 Generation = ModelGenerations[4]
             },
             new()
             {
                 LicensePlate = "J010JJ",
-                Color = "Красный",
+                Color = "Red",
                 Generation = ModelGenerations[4]
             },
             new()
             {
                 LicensePlate = "K011KK",
-                Color = "Зеленый",
+                Color = "Green",
                 Generation = ModelGenerations[0]
             },
             new()
             {
                 LicensePlate = "L012LL",
-                Color = "Серый",
+                Color = "Gray",
                 Generation = ModelGenerations[1]
             }
         ];
+
+    /// <summary>
+    /// Gets the list of registered clients who can rent vehicles
+    /// Contains client identification and personal information
+    /// </summary>
     public List<Client> Clients =>
         [
             new()
             {
                 DriverLicenseNumber = "1234567890",
-                FullName = "Иванов Иван Иванович",
+                FullName = "Ivanov Ivan Ivanovich",
                 BirthDate = new DateTime(1985, 5, 15)
             },
             new()
             {
                 DriverLicenseNumber = "2345678901",
-                FullName = "Петров Петр Петрович",
+                FullName = "Petrov Petr Petrovich",
                 BirthDate = new DateTime(1990, 8, 22)
             },
             new()
             {
                 DriverLicenseNumber = "3456789012",
-                FullName = "Сидоров Алексей Владимирович",
+                FullName = "Sidorov Alexey Vladimirovich",
                 BirthDate = new DateTime(1988, 3, 10)
             },
             new()
             {
                 DriverLicenseNumber = "4567890123",
-                FullName = "Кузнецова Мария Сергеевна",
+                FullName = "Kuznetsova Maria Sergeevna",
                 BirthDate = new DateTime(1992, 11, 5)
             },
             new()
             {
                 DriverLicenseNumber = "5678901234",
-                FullName = "Смирнов Дмитрий Алексеевич",
+                FullName = "Smirnov Dmitry Alexeevich",
                 BirthDate = new DateTime(1987, 7, 18)
             },
             new()
             {
                 DriverLicenseNumber = "6789012345",
-                FullName = "Попова Екатерина Андреевна",
+                FullName = "Popova Ekaterina Andreevna",
                 BirthDate = new DateTime(1995, 2, 28)
             },
             new()
             {
                 DriverLicenseNumber = "7890123456",
-                FullName = "Васильев Андрей Николаевич",
+                FullName = "Vasilyev Andrey Nikolaevich",
                 BirthDate = new DateTime(1983, 9, 12)
             },
             new()
             {
                 DriverLicenseNumber = "8901234567",
-                FullName = "Новикова Ольга Викторовна",
+                FullName = "Novikova Olga Viktorovna",
                 BirthDate = new DateTime(1991, 6, 8)
             },
             new()
             {
                 DriverLicenseNumber = "9012345678",
-                FullName = "Морозов Сергей Иванович",
+                FullName = "Morozov Sergey Ivanovich",
                 BirthDate = new DateTime(1989, 4, 25)
             },
             new()
             {
                 DriverLicenseNumber = "0123456789",
-                FullName = "Волкова Анна Дмитриевна",
+                FullName = "Volkova Anna Dmitrievna",
                 BirthDate = new DateTime(1993, 12, 3)
             },
             new()
             {
                 DriverLicenseNumber = "1122334455",
-                FullName = "Алексеев Павел Олегович",
+                FullName = "Alexeev Pavel Olegovich",
                 BirthDate = new DateTime(1986, 1, 20)
             },
             new()
             {
                 DriverLicenseNumber = "2233445566",
-                FullName = "Никитина Ирина Сергеевна",
+                FullName = "Nikitina Irina Sergeevna",
                 BirthDate = new DateTime(1994, 10, 15)
             }
         ];
+
+    /// <summary>
+    /// Gets the list of rental records representing completed and active rental agreements
+    /// Each rental links a client with a car for a specific time period
+    /// </summary>
     public List<Rental> Rentals =>
     [
-        new() //
+        new()
         {
             Client = Clients[0],
             Car = Cars[0],
             RentalStart = new DateTime(2024, 1, 15, 10, 0, 0),
             RentalHours = 24
         },
-        new() //
+        new()
         {
             Client = Clients[1],
             Car = Cars[1],
@@ -315,7 +339,7 @@ public class CarRentalService
             RentalStart = new DateTime(2024, 1, 17, 17, 45, 0),
             RentalHours = 30
         },
-        new() //
+        new()
         {
             Client = Clients[10],
             Car = Cars[10],
@@ -331,5 +355,3 @@ public class CarRentalService
         }
     ];
 }
-
-

@@ -4,15 +4,27 @@ using CarRentalPoint.Entities;
 using System.Linq;
 
 namespace CarRentalPoint.Tests;
+
+/// <summary>
+/// Unit tests for CarRentalService class functionality
+/// Tests various business logic scenarios including client queries, rental calculations, and data aggregation
+/// </summary>
 public class CarRentalServiceTests
 {
     private readonly CarRentalService _service;
 
+    /// <summary>
+    /// Initializes a new instance of the test class with fresh service data
+    /// </summary>
     public CarRentalServiceTests()
     {
         _service = new CarRentalService();
     }
 
+    /// <summary>
+    /// Tests that clients who rented a specific car model are returned and ordered by full name
+    /// Verifies the correct filtering and sorting logic
+    /// </summary>
     [Fact]
     public void GetClientsByCarModel_ShouldReturnClientsOrderedByFullName()
     {
@@ -30,20 +42,24 @@ public class CarRentalServiceTests
         Assert.True(result.Count() == 3);
     }
 
+    /// <summary>
+    /// Tests retrieval of currently rented cars by modifying rental dates to simulate active rentals
+    /// Verifies that IsActive property correctly identifies ongoing rentals
+    /// </summary>
     [Fact]
     public void GetCarsCurrentlyRented_ShouldReturnActiveRentals()
     {
         // Arrange
-        // Для теста изменим даты некоторых аренд, чтобы они были активными
+        // For testing purposes, modify some rental dates to make them active
         var rentals = _service.Rentals;
 
-        // Сделаем несколько аренд активными (установим дату в будущем)
-        var futureDate = DateTime.Now.AddHours(-1); // Начало аренды 1 час назад
+        // Make several rentals active (set start date in recent past)
+        var futureDate = DateTime.Now.AddHours(-1); // Rental started 1 hour ago
         rentals[0].RentalStart = futureDate;
-        rentals[0].RentalHours = 48; // Аренда активна еще 47 часов
+        rentals[0].RentalHours = 48; // Rental active for 47 more hours
 
         rentals[1].RentalStart = futureDate;
-        rentals[1].RentalHours = 24; // Аренда активна еще 23 часа
+        rentals[1].RentalHours = 24; // Rental active for 23 more hours
 
         // Act
         var activeRentals = rentals
@@ -52,7 +68,7 @@ public class CarRentalServiceTests
             .Distinct()
             .ToList();
 
-        // Проверяем, что все возвращенные автомобили действительно в аренде
+        // Verify that all returned cars are indeed currently rented
         foreach (var car in activeRentals)
         {
             var isRented = rentals
@@ -61,6 +77,10 @@ public class CarRentalServiceTests
         }
     }
 
+    /// <summary>
+    /// Tests the retrieval of top 5 most frequently rented cars
+    /// Verifies correct ordering by rental count in descending order
+    /// </summary>
     [Fact]
     public void GetTop5MostFrequentlyRentedCars_ShouldReturnCorrectOrder()
     {
@@ -77,13 +97,17 @@ public class CarRentalServiceTests
 
         Assert.True(topCars.Count <= 5);
 
-        // Проверяем порядок (по убыванию количества аренд)
+        // Verify ordering (by descending rental count)
         for (var i = 0; i < topCars.Count - 1; i++)
         {
             Assert.True(topCars[i].RentalCount >= topCars[i + 1].RentalCount);
         }
     }
 
+    /// <summary>
+    /// Tests calculation of rental counts for each car in the fleet
+    /// Verifies that aggregate counts match individual car rental records
+    /// </summary>
     [Fact]
     public void GetRentalCountPerCar_ShouldReturnCountForEachCar()
     {
@@ -96,11 +120,11 @@ public class CarRentalServiceTests
             })
             .ToList();
 
-        // Проверяем, что сумма всех аренд равна общему количеству аренд
+        // Verify that sum of all rentals equals total number of rentals
         var totalRentals = rentalCounts.Sum(x => x.RentalCount);
         Assert.Equal(_service.Rentals.Count, totalRentals);
 
-        // Проверяем, что у каждого автомобиля правильное количество аренд
+        // Verify that each car has the correct rental count
         foreach (var car in _service.Cars)
         {
             var expectedCount = _service.Rentals.Count(r => r.Car == car);
@@ -109,6 +133,10 @@ public class CarRentalServiceTests
         }
     }
 
+    /// <summary>
+    /// Tests retrieval of top 5 clients by total rental cost
+    /// Verifies correct ordering by total cost in descending order
+    /// </summary>
     [Fact]
     public void GetTop5ClientsByRentalSum_ShouldReturnCorrectOrder()
     {
@@ -123,13 +151,17 @@ public class CarRentalServiceTests
             .Take(5)
             .ToList();
 
-        // Проверяем порядок (по убыванию суммы аренд)
+        // Verify ordering (by descending rental sum)
         for (var i = 0; i < topClients.Count - 1; i++)
         {
             Assert.True(topClients[i].TotalRentalCost >= topClients[i + 1].TotalRentalCost);
         }
     }
 
+    /// <summary>
+    /// Tests that rental properties are calculated correctly
+    /// Verifies total cost calculation and string representation functionality
+    /// </summary>
     [Fact]
     public void RentalProperties_ShouldCalculateCorrectly()
     {
@@ -140,23 +172,27 @@ public class CarRentalServiceTests
         Assert.NotNull(rental.ToString());
     }
 
+    /// <summary>
+    /// Tests multiple specific business scenarios in one comprehensive test
+    /// Includes BMW client filtering, top car analysis, and client rental cost aggregation
+    /// </summary>
     [Fact]
     public void TestSpecificScenarios()
     {
-        // Тест 1: Проверяем клиентов конкретной модели
+        // Test 1: Verify clients of specific model
         var bmwClients = _service.Rentals
             .Where(r => r.Car?.Generation?.Model?.Name == "BMW X5")
             .Select(r => r.Client?.FullName)
-            .Where(name => name != null)  // Фильтруем null значения
+            .Where(name => name != null)  // Filter null values
             .Distinct()
             .OrderBy(name => name)
             .ToList();
 
         Assert.NotNull(bmwClients);
 
-        // Тест 2: Проверяем топ автомобилей
+        // Test 2: Verify top cars analysis
         var topCars = _service.Rentals
-            .Where(r => r.Car != null)  // Фильтруем null автомобили
+            .Where(r => r.Car != null)  // Filter null cars
             .GroupBy(r => r.Car)
             .Select(g => new { Car = g.Key!, Count = g.Count() })
             .OrderByDescending(x => x.Count)
@@ -165,13 +201,13 @@ public class CarRentalServiceTests
 
         Assert.True(topCars.All(x => x.Count > 0));
 
-        // Тест 3: Проверяем суммы аренд по клиентам
+        // Test 3: Verify rental cost aggregation by client
         var clientSums = _service.Rentals
             .Where(r => r.Client != null)
             .GroupBy(r => r.Client)
             .Select(g => new
             {
-                Client = g.Key!,  // ! - утверждаем, что ключ не null
+                Client = g.Key!,  // ! - assert non-null key
                 TotalCost = g.Sum(r => r.TotalCost)
             })
             .ToDictionary(x => x.Client, x => x.TotalCost);
