@@ -7,18 +7,23 @@
 public class Client
 {
     /// <summary>
+    /// Unique identifier for the client
+    /// </summary>
+    public int Id { get; set; }
+
+    /// <summary>
     /// Unique driver's license number used for identification and verification
     /// </summary>
-    public string DriverLicenseNumber { get; set; } = string.Empty;
+    public required string DriverLicenseNumber { get; set; } = string.Empty;
 
     /// <summary>
     /// Full name of the client in the format "Last Name First Name Middle Name"
     /// </summary>
-    public string FullName { get; set; } = string.Empty;
+    public required string FullName { get; set; } = string.Empty;
 
     /// <summary>
     /// Date of birth of the client for age verification and record keeping
     /// </summary>
-    public DateTime BirthDate { get; set; }
+    public required DateTime BirthDate { get; set; }
 
 }

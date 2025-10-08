@@ -7,6 +7,11 @@
 public class Car
 {
     /// <summary>
+    /// Unique identifier for the car
+    /// </summary>
+    public int Id { get; set; }
+
+    /// <summary>
     /// Unique license plate number that identifies the vehicle
     /// </summary>
     public required string LicensePlate { get; set; }

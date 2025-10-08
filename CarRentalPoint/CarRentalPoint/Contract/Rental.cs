@@ -38,11 +38,5 @@ public class Rental
     /// Total rental cost calculated as hourly rental rate multiplied by number of hours
     /// Returns 0 if the car or its generation are not defined
     /// </summary>
-    public decimal TotalCost => Car?.Generation?.RentalCostPerHour * RentalHours ?? 0;
-
-    /// <summary>
-    /// Returns a string representation of the rental in format: "Client Full Name - Car License Plate (Start Date)"
-    /// </summary>
-    /// <returns>String with basic rental information</returns>
-    public override string ToString() => $"{Client?.FullName} - {Car?.LicensePlate} ({RentalStart})";
+    public decimal TotalCost => Car.Generation.RentalCostPerHour * RentalHours;
 }
