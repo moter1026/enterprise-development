@@ -14,12 +14,12 @@ public class Client
     /// <summary>
     /// Unique driver's license number used for identification and verification
     /// </summary>
-    public required string DriverLicenseNumber { get; set; } = string.Empty;
+    public required string DriverLicenseNumber { get; set; }
 
     /// <summary>
     /// Full name of the client in the format "Last Name First Name Middle Name"
     /// </summary>
-    public required string FullName { get; set; } = string.Empty;
+    public required string FullName { get; set; }
 
     /// <summary>
     /// Date of birth of the client for age verification and record keeping

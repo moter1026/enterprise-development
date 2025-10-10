@@ -8,7 +8,7 @@ namespace CarRentalPoint.Tests;
 /// Unit tests for CarRentalService class functionality
 /// Tests various business logic scenarios including client queries, rental calculations, and data aggregation
 /// </summary>
-public class CarRentalServiceTests(CarRentalDataSeeder Service) : IClassFixture<CarRentalDataSeeder>
+public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<CarRentalDataSeeder>
 {
     /// <summary>
     /// Tests that clients who rented a specific car model are returned and ordered by full name
@@ -22,7 +22,7 @@ public class CarRentalServiceTests(CarRentalDataSeeder Service) : IClassFixture<
         var expectedCount = 8;
 
         // Act
-        var result = Service.Rentals
+        var result = service.Rentals
             .Where(r => r.Car.Generation.Model.Id == targetModelId)
             .Select(r => r.Client)
             .Distinct()
@@ -41,7 +41,7 @@ public class CarRentalServiceTests(CarRentalDataSeeder Service) : IClassFixture<
     public void GetCarsCurrentlyRented_ShouldReturnActiveRentals()
     {
         // Arrange
-        var rentals = Service.Rentals;
+        var rentals = service.Rentals;
         var currentTime = new DateTime(2024, 1, 15, 14, 0, 0); // Фиксированное время для теста
         var expectedCount = 3;
 
@@ -59,7 +59,7 @@ public class CarRentalServiceTests(CarRentalDataSeeder Service) : IClassFixture<
     /// <summary>
     /// Helper method to determine if rental is active at specific time
     /// </summary>
-    private bool IsRentalActive(Rental rental, DateTime currentTime)
+    private static bool IsRentalActive(Rental rental, DateTime currentTime)
     {
         var rentalEnd = rental.RentalStart.AddHours(rental.RentalHours);
         return rental.RentalStart <= currentTime && currentTime <= rentalEnd;
@@ -73,19 +73,17 @@ public class CarRentalServiceTests(CarRentalDataSeeder Service) : IClassFixture<
     public void GetTop5MostFrequentlyRentedCars_ShouldReturnExpectedCars()
     {
         // Arrange
-        var rentals = Service.Rentals;
+        var rentals = service.Rentals;
         var expectedTopCount = 5;
 
-        // Ожидаемое множество машин (например, заранее знаем из сидера, что чаще всего брали вот эти)
         var expectedCars = new List<Car>
         {
-            Service.Cars[0],  // Id = 1 (5 аренд)
-            Service.Cars[3],  // Id = 4 (3 аренды)
-            Service.Cars[5],  // Id = 6 (3 аренды)
-            Service.Cars[7],  // Id = 8 (2 аренды)
-            Service.Cars[10]  // Id = 11 (2 аренды)
+            service.Cars[0],  
+            service.Cars[3],  
+            service.Cars[5],  
+            service.Cars[7],  
+            service.Cars[10] 
         };
-
 
         // Act
         var topCars = rentals
@@ -94,15 +92,15 @@ public class CarRentalServiceTests(CarRentalDataSeeder Service) : IClassFixture<
              {
                  CarId = g.Key,
                  RentalCount = g.Count(),
-                 Car = g.First().Car  // Берем первый объект Car из группы
-             })
+                 g.First().Car
+            })
             .OrderByDescending(x => x.RentalCount)
-            .Take(expectedTopCount)
+            .Take(5)
             .Select(x => x.Car)
             .ToList();
 
         // Assert
-        Assert.Equal(expectedTopCount, topCars.Count);         // проверяем размер
+        Assert.Equal(expectedTopCount, topCars.Count);        
         Assert.Equal(expectedCars.Select(c => c.Id), topCars.Select(c => c.Id));                   // проверяем точное совпадение
     }
 
@@ -115,24 +113,23 @@ public class CarRentalServiceTests(CarRentalDataSeeder Service) : IClassFixture<
     public void GetRentalCountPerCar_ShouldReturnCountForEachCar()
     {
         // Arrange
-        var rentals = Service.Rentals;
-        var cars = Service.Cars;
+        var rentals = service.Rentals;
+        var cars = service.Cars;
 
-        // Ожидаемое количество аренд для каждой машины (из анализа данных в сидере)
         var expectedRentalCounts = new Dictionary<int, int>
         {
-            { 1, 5 },   // Car Id = 1 (А001АА) - 5 аренд
-            { 2, 1 },   // Car Id = 2 (В002ВВ) - 1 аренда
-            { 3, 1 },   // Car Id = 3 (С003СС) - 1 аренда
-            { 4, 3 },   // Car Id = 4 (D004DD) - 3 аренды
-            { 5, 1 },   // Car Id = 5 (Е005ЕЕ) - 1 аренда
-            { 6, 3 },   // Car Id = 6 (F006FF) - 3 аренды
-            { 7, 1 },   // Car Id = 7 (G007GG) - 1 аренда
-            { 8, 2 },   // Car Id = 8 (H008HH) - 2 аренды
-            { 9, 1 },   // Car Id = 9 (I009II) - 1 аренда
-            { 10, 1 },  // Car Id = 10 (J010JJ) - 1 аренда
-            { 11, 2 },  // Car Id = 11 (K011KK) - 2 аренды
-            { 12, 1 }   // Car Id = 12 (L012LL) - 1 аренда
+            { 1, 5 },   // Car Id = 1 (А001АА) - 5 rents
+            { 2, 1 },   // Car Id = 2 (В002ВВ) - 1 rents
+            { 3, 1 },   // Car Id = 3 (С003СС) - 1 rents
+            { 4, 3 },   // Car Id = 4 (D004DD) - 3 rents
+            { 5, 1 },   // Car Id = 5 (Е005ЕЕ) - 1 rents
+            { 6, 3 },   // Car Id = 6 (F006FF) - 3 rents
+            { 7, 1 },   // Car Id = 7 (G007GG) - 1 rents
+            { 8, 2 },   // Car Id = 8 (H008HH) - 2 rents
+            { 9, 1 },   // Car Id = 9 (I009II) - 1 rents
+            { 10, 1 },  // Car Id = 10 (J010JJ) - 1 rents
+            { 11, 2 },  // Car Id = 11 (K011KK) - 2 rents
+            { 12, 1 }   // Car Id = 12 (L012LL) - 1 rents
         };
 
         // Act
@@ -142,27 +139,16 @@ public class CarRentalServiceTests(CarRentalDataSeeder Service) : IClassFixture<
             {
                 CarId = g.Key,
                 RentalCount = g.Count(),
-                Car = g.First().Car
+                g.First().Car
             })
             .ToList();
 
         var totalRentals = rentalCounts.Sum(x => x.RentalCount);
 
         // Assert
-        Assert.Equal(rentals.Count, totalRentals); // Проверяем общее количество аренд
+        Assert.Equal(rentals.Count, totalRentals);
 
-        // Проверяем количество аренд для каждой машины
-        foreach (var expected in expectedRentalCounts)
-        {
-            var actualCount = rentalCounts.FirstOrDefault(x => x.CarId == expected.Key)?.RentalCount ?? 0;
-            Assert.Equal(expected.Value, actualCount);
-        }
-
-        // Дополнительная проверка: убеждаемся, что все машины из ожидаемого списка присутствуют в результатах
-        foreach (var carId in expectedRentalCounts.Keys)
-        {
-            Assert.Contains(rentalCounts, x => x.CarId == carId);
-        }
+        Assert.Equal(expectedRentalCounts, rentalCounts.ToDictionary(x => x.CarId, x => x.RentalCount));
     }
 
     /// <summary>
@@ -173,29 +159,16 @@ public class CarRentalServiceTests(CarRentalDataSeeder Service) : IClassFixture<
     public void GetTop5ClientsByRentalSum_ShouldReturnCorrectOrder()
     {
         // Arrange
-        var rentals = Service.Rentals;
+        var rentals = service.Rentals;
         var expectedTopCount = 5;
-        // Ожидаемые клиенты в правильном порядке (на основе РЕАЛЬНОЙ суммы аренд)
         var expectedClients = new List<Client>
         {
-            Service.Clients[3],  // Clients[3] 
-            Service.Clients[0],  // Clients[0]
-            Service.Clients[11], // Clients[11]
-            Service.Clients[6],  // Clients[6]
-            Service.Clients[7]   // Clients[7]
+            service.Clients[3],  
+            service.Clients[0], 
+            service.Clients[11], 
+            service.Clients[6],  
+            service.Clients[7]   
         };
-
-        // Рассчитаем реальные суммы для каждого клиента
-        var clientCosts = rentals
-            .GroupBy(r => r.Client.DriverLicenseNumber)
-            .Select(g => new
-            {
-                Client = g.First().Client,
-                TotalRentalCost = g.Sum(r => r.TotalCost),
-                RentalCount = g.Count()
-            })
-            .OrderByDescending(x => x.TotalRentalCost)
-            .ToList();
 
         // Act
         var topClients = rentals
@@ -204,17 +177,15 @@ public class CarRentalServiceTests(CarRentalDataSeeder Service) : IClassFixture<
             {
                 ClientLicenseNumber = g.Key,
                 TotalRentalCost = g.Sum(r => r.TotalCost),
-                Client = g.First().Client
+                g.First().Client
             })
             .OrderByDescending(x => x.TotalRentalCost)
-            .Take(expectedTopCount)
-            .Select(x => x.Client)  // Берем только клиентов
+            .Take(5)
+            .Select(x => x.Client)
             .ToList();
 
         // Assert
         Assert.Equal(expectedTopCount, topClients.Count);
-
-        // Проверяем точное совпадение клиентов
         Assert.Equal(
             expectedClients.Select(c => c.DriverLicenseNumber),
             topClients.Select(c => c.DriverLicenseNumber)
