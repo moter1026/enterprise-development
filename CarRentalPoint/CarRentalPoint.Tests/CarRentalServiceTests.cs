@@ -42,7 +42,7 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
     {
         // Arrange
         var rentals = service.Rentals;
-        var currentTime = new DateTime(2024, 1, 15, 14, 0, 0); // Фиксированное время для теста
+        var currentTime = new DateTime(2024, 1, 15, 14, 0, 0);
         var expectedCount = 3;
 
         // Act
@@ -76,13 +76,9 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
         var rentals = service.Rentals;
         var expectedTopCount = 5;
 
-        var expectedCars = new List<Car>
+        var expectedCars = new List<int>
         {
-            service.Cars[0],  
-            service.Cars[3],  
-            service.Cars[5],  
-            service.Cars[7],  
-            service.Cars[10] 
+            1, 4, 6, 8, 11 
         };
 
         // Act
@@ -101,7 +97,7 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
 
         // Assert
         Assert.Equal(expectedTopCount, topCars.Count);        
-        Assert.Equal(expectedCars.Select(c => c.Id), topCars.Select(c => c.Id));                   // проверяем точное совпадение
+        Assert.Equal(expectedCars, topCars.Select(c => c.Id)); 
     }
 
 
@@ -161,13 +157,13 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
         // Arrange
         var rentals = service.Rentals;
         var expectedTopCount = 5;
-        var expectedClients = new List<Client>
+        var expectedLicenseNumber = new List<string>
         {
-            service.Clients[3],  
-            service.Clients[0], 
-            service.Clients[11], 
-            service.Clients[6],  
-            service.Clients[7]   
+            "4567890123",
+            "1234567890",
+            "2233445566",
+            "7890123456",
+            "8901234567"
         };
 
         // Act
@@ -187,7 +183,7 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
         // Assert
         Assert.Equal(expectedTopCount, topClients.Count);
         Assert.Equal(
-            expectedClients.Select(c => c.DriverLicenseNumber),
+            expectedLicenseNumber,
             topClients.Select(c => c.DriverLicenseNumber)
         );
     }
