@@ -1,6 +1,6 @@
-﻿using CarRentalPoint.Contract;
-using CarRentalPoint.Entities;
-using CarRentalPoint.InitialData;
+﻿using CarRentalPoint.Domain.Contract;
+using CarRentalPoint.Domain.Entities;
+using CarRentalPoint.Domain.InitialData;
 
 namespace CarRentalPoint.Tests;
 

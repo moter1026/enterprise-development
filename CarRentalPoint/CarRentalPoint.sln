@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint", "CarRentalPoint\CarRentalPoint.csproj", "{009FE654-6745-40ED-B19E-EB3B97D326C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Domain", "CarRentalPoint.Domain\CarRentalPoint.Domain.csproj", "{009FE654-6745-40ED-B19E-EB3B97D326C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalPoint.Tests", "CarRentalPoint.Tests\CarRentalPoint.Tests.csproj", "{13C45544-1122-4E30-862E-36BE794E1D31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Tests", "CarRentalPoint.Tests\CarRentalPoint.Tests.csproj", "{13C45544-1122-4E30-862E-36BE794E1D31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalPoint.Infrastructure", "CarRentalPoint.Infrastructure\CarRentalPoint.Infrastructure.csproj", "{CDF2795D-50A9-445E-B54C-10E7076101AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{13C45544-1122-4E30-862E-36BE794E1D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13C45544-1122-4E30-862E-36BE794E1D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13C45544-1122-4E30-862E-36BE794E1D31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF2795D-50A9-445E-B54C-10E7076101AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF2795D-50A9-445E-B54C-10E7076101AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF2795D-50A9-445E-B54C-10E7076101AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF2795D-50A9-445E-B54C-10E7076101AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

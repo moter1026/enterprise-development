@@ -1,6 +1,6 @@
-﻿using CarRentalPoint.Enums;
+﻿using CarRentalPoint.Domain.Enums;
 
-namespace CarRentalPoint.Entities;
+namespace CarRentalPoint.Domain.Entities;
 
 /// <summary>
 /// Reference data for car models

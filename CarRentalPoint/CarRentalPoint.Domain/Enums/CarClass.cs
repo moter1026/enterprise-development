@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-namespace CarRentalPoint.Enums;
+﻿namespace CarRentalPoint.Domain.Enums;
 
 /// <summary>
 /// Vehicle classification category according to European standards

@@ -1,4 +1,4 @@
-﻿namespace CarRentalPoint.Entities;
+﻿namespace CarRentalPoint.Domain.Entities;
 
 /// <summary>
 /// Represents a physical car available for rental

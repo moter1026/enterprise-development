@@ -1,8 +1,8 @@
-﻿using CarRentalPoint.Contract;
-using CarRentalPoint.Entities;
-using CarRentalPoint.Enums;
+﻿using CarRentalPoint.Domain.Contract;
+using CarRentalPoint.Domain.Entities;
+using CarRentalPoint.Domain.Enums;
 
-namespace CarRentalPoint.InitialData;
+namespace CarRentalPoint.Domain.InitialData;
 
 /// <summary>
 /// Main service class that provides initial test data for the car rental system
@@ -13,7 +13,7 @@ public class CarRentalDataSeeder
     /// <summary>
     /// Gets the list of available car models with their specifications
     /// </summary>
-    protected static List<CarModel> CarModels =>
+    public static List<CarModel> CarModels =>
     [
         new()
         {
@@ -65,7 +65,7 @@ public class CarRentalDataSeeder
     /// <summary>
     /// Gets the list of model generations with technical details and rental pricing
     /// </summary>
-    protected static List<ModelGeneration> ModelGenerations =>
+    public static List<ModelGeneration> ModelGenerations =>
     [
         new()
         {
@@ -301,6 +301,7 @@ public class CarRentalDataSeeder
     [
         new()
         {
+            Id = 1,
             Client = Clients[0],
             Car = Cars[0],
             RentalStart = new DateTime(2024, 1, 15, 10, 0, 0),
@@ -308,6 +309,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 2,
             Client = Clients[1],
             Car = Cars[1],
             RentalStart = new DateTime(2024, 1, 16, 14, 30, 0),
@@ -315,6 +317,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 3,
             Client = Clients[2],
             Car = Cars[2],
             RentalStart = new DateTime(2024, 1, 17, 9, 15, 0),
@@ -322,6 +325,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 4,
             Client = Clients[3],
             Car = Cars[3],
             RentalStart = new DateTime(2024, 1, 14, 14, 0, 0),
@@ -329,6 +333,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 5,
             Client = Clients[4],
             Car = Cars[4],
             RentalStart = new DateTime(2024, 1, 19, 11, 0, 0),
@@ -336,6 +341,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 6,
             Client = Clients[5],
             Car = Cars[5],
             RentalStart = new DateTime(2024, 1, 20, 13, 20, 0),
@@ -343,6 +349,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 7,
             Client = Clients[5],
             Car = Cars[5],
             RentalStart = new DateTime(2024, 1, 22, 13, 20, 0),
@@ -350,6 +357,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 8,
             Client = Clients[5],
             Car = Cars[5],
             RentalStart = new DateTime(2024, 1, 25, 13, 20, 0),
@@ -357,6 +365,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 9,
             Client = Clients[6],
             Car = Cars[6],
             RentalStart = new DateTime(2024, 1, 21, 8, 0, 0),
@@ -364,6 +373,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 10,
             Client = Clients[7],
             Car = Cars[7],
             RentalStart = new DateTime(2024, 1, 15, 15, 30, 0),
@@ -371,6 +381,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 11,
             Client = Clients[7],
             Car = Cars[7],
             RentalStart = new DateTime(2024, 2, 15, 15, 30, 0),
@@ -378,6 +389,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 12,
             Client = Clients[8],
             Car = Cars[8],
             RentalStart = new DateTime(2024, 1, 16, 12, 0, 0),
@@ -385,6 +397,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 13,
             Client = Clients[9],
             Car = Cars[9],
             RentalStart = new DateTime(2024, 1, 17, 17, 45, 0),
@@ -392,6 +405,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 14,
             Client = Clients[10],
             Car = Cars[10],
             RentalStart = new DateTime(2024, 1, 18, 10, 15, 0),
@@ -399,6 +413,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 15,
             Client = Clients[10],
             Car = Cars[10],
             RentalStart = new DateTime(2024, 1, 17, 10, 15, 0),
@@ -406,6 +421,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 16,
             Client = Clients[11],
             Car = Cars[11],
             RentalStart = new DateTime(2024, 1, 19, 14, 0, 0),
@@ -413,6 +429,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 17,
             Client = Clients[0],
             Car = Cars[0],
             RentalStart = new DateTime(2024, 1, 15, 15, 0, 0),
@@ -420,6 +437,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 18,
             Client = Clients[0],
             Car = Cars[0],
             RentalStart = new DateTime(2024, 2, 15, 10, 0, 0),
@@ -427,6 +445,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 19,
             Client = Clients[0],
             Car = Cars[0],
             RentalStart = new DateTime(2024, 1, 16, 10, 0, 0),
@@ -434,6 +453,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 20,
             Client = Clients[0],
             Car = Cars[0],
             RentalStart = new DateTime(2024, 5, 15, 10, 0, 0),
@@ -441,6 +461,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 21,
             Client = Clients[3],
             Car = Cars[3],
             RentalStart = new DateTime(2024, 1, 15, 14, 0, 0),
@@ -448,6 +469,7 @@ public class CarRentalDataSeeder
         },
         new()
         {
+            Id = 22,
             Client = Clients[3],
             Car = Cars[3],
             RentalStart = new DateTime(2024, 2, 14, 14, 0, 0),

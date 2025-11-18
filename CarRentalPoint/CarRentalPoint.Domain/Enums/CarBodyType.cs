@@ -1,4 +1,4 @@
-﻿namespace CarRentalPoint.Enums;
+﻿namespace CarRentalPoint.Domain.Enums;
 
 /// <summary>
 /// Body type of the vehicle (тип кузова)

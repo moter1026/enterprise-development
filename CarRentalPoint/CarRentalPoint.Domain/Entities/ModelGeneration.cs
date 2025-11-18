@@ -1,4 +1,4 @@
-﻿namespace CarRentalPoint.Entities;
+﻿namespace CarRentalPoint.Domain.Entities;
 
 /// <summary>
 /// Reference data for model generations
@@ -6,6 +6,11 @@
 /// </summary>
 public class ModelGeneration
 {
+    /// <summary>
+    /// Unique identifier for the Model Generation
+    /// </summary>
+    public int Id { get; set; }
+
     /// <summary>
     /// Manufacturing year of this specific model generation
     /// </summary>

@@ -17,11 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <ProjectReference Include="..\CarRentalPoint.Domain\CarRentalPoint.Domain.csproj" />
   </ItemGroup>
 
-    <ItemGroup>
-	    <ProjectReference Include="..\CarRentalPoint\CarRentalPoint.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
-﻿using System;
-namespace CarRentalPoint.Enums;
+﻿namespace CarRentalPoint.Domain.Enums;
 
 /// <summary>
 /// Type of drive system

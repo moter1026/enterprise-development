@@ -1,6 +1,6 @@
-﻿using CarRentalPoint.Entities;
+﻿using CarRentalPoint.Domain.Entities;
 
-namespace CarRentalPoint.Contract;
+namespace CarRentalPoint.Domain.Contract;
 
 /// <summary>
 /// Represents a car rental agreement between a client and the company
@@ -8,6 +8,11 @@ namespace CarRentalPoint.Contract;
 /// </summary>
 public class Rental
 {
+    /// <summary>
+    /// Unique identifier for the car rental agreement
+    /// </summary>
+    public int Id { get; set; }
+
     /// <summary>
     /// The client who is renting the car
     /// </summary>
