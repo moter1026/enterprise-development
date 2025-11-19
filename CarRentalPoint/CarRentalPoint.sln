@@ -9,7 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Tests", "Car
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Infrastructure", "CarRentalPoint.Infrastructure\CarRentalPoint.Infrastructure.csproj", "{CDF2795D-50A9-445E-B54C-10E7076101AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalPoint.Application", "CarRentalPoint.Application\CarRentalPoint.Application.csproj", "{D6AFAECD-B96F-42F2-9266-1FF0CD98F08B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Application", "CarRentalPoint.Application\CarRentalPoint.Application.csproj", "{D6AFAECD-B96F-42F2-9266-1FF0CD98F08B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Api", "CarRentalPoint.Api\CarRentalPoint.Api.csproj", "{116AAC30-7BF9-449A-BF95-A9AAAC47E07F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalPoint.AppHost", "CarRentalPoint.AppHost\CarRentalPoint.AppHost.csproj", "{5FEC7B72-2578-4391-954D-EB62B9C2BAAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.ServiceDefaults", "CarRentalPoint.ServiceDefaults\CarRentalPoint.ServiceDefaults.csproj", "{22FEC2AC-AA90-4C27-B9DF-9F6049A9C473}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{D6AFAECD-B96F-42F2-9266-1FF0CD98F08B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6AFAECD-B96F-42F2-9266-1FF0CD98F08B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6AFAECD-B96F-42F2-9266-1FF0CD98F08B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{116AAC30-7BF9-449A-BF95-A9AAAC47E07F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{116AAC30-7BF9-449A-BF95-A9AAAC47E07F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{116AAC30-7BF9-449A-BF95-A9AAAC47E07F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{116AAC30-7BF9-449A-BF95-A9AAAC47E07F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FEC7B72-2578-4391-954D-EB62B9C2BAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FEC7B72-2578-4391-954D-EB62B9C2BAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FEC7B72-2578-4391-954D-EB62B9C2BAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FEC7B72-2578-4391-954D-EB62B9C2BAAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22FEC2AC-AA90-4C27-B9DF-9F6049A9C473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22FEC2AC-AA90-4C27-B9DF-9F6049A9C473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22FEC2AC-AA90-4C27-B9DF-9F6049A9C473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22FEC2AC-AA90-4C27-B9DF-9F6049A9C473}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
