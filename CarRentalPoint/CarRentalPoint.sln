@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Domain", "Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Tests", "CarRentalPoint.Tests\CarRentalPoint.Tests.csproj", "{13C45544-1122-4E30-862E-36BE794E1D31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalPoint.Infrastructure", "CarRentalPoint.Infrastructure\CarRentalPoint.Infrastructure.csproj", "{CDF2795D-50A9-445E-B54C-10E7076101AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Infrastructure", "CarRentalPoint.Infrastructure\CarRentalPoint.Infrastructure.csproj", "{CDF2795D-50A9-445E-B54C-10E7076101AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalPoint.Application", "CarRentalPoint.Application\CarRentalPoint.Application.csproj", "{D6AFAECD-B96F-42F2-9266-1FF0CD98F08B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{CDF2795D-50A9-445E-B54C-10E7076101AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDF2795D-50A9-445E-B54C-10E7076101AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDF2795D-50A9-445E-B54C-10E7076101AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6AFAECD-B96F-42F2-9266-1FF0CD98F08B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6AFAECD-B96F-42F2-9266-1FF0CD98F08B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6AFAECD-B96F-42F2-9266-1FF0CD98F08B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6AFAECD-B96F-42F2-9266-1FF0CD98F08B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
