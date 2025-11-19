@@ -2,7 +2,7 @@ name: .NET Tests
 
 on:
   push:
-    branches: [ main, lab1 ]
+    branches: [ main, lab1, lab2-3 ]
   pull_request:
     branches: [ main ]
 
