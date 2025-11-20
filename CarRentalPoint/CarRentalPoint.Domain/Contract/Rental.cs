@@ -14,14 +14,24 @@ public class Rental
     public int Id { get; set; }
 
     /// <summary>
+    /// Unique identifier for the client that rented the car
+    /// </summary>
+    public required int ClientId { get; set; }
+
+    /// <summary>
     /// The client who is renting the car
     /// </summary>
-    public required Client Client { get; set; }
+    public Client? Client { get; set; }
+
+    /// <summary>
+    /// Unique identifier for the rented car
+    /// </summary>
+    public required int CarId { get; set; }
 
     /// <summary>
     /// The car being rented
     /// </summary>
-    public required Car Car { get; set; }
+    public Car? Car { get; set; }
 
     /// <summary>
     /// Date and time when the rental starts
@@ -43,5 +53,5 @@ public class Rental
     /// Total rental cost calculated as hourly rental rate multiplied by number of hours
     /// Returns 0 if the car or its generation are not defined
     /// </summary>
-    public decimal TotalCost => Car.Generation.RentalCostPerHour * RentalHours;
+    public decimal TotalCost => (Car?.Generation?.RentalCostPerHour ?? 0) * RentalHours;
 }

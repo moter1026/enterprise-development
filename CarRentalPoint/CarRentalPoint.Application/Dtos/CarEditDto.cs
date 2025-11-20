@@ -3,19 +3,7 @@
 /// <summary>
 /// DTO for updating car details
 /// </summary>
-public record CarEditDto(
-    /// <summary>
-    /// Car's license plate
-    /// </summary>
-    string LicensePlate,
-
-    /// <summary>
-    /// Car's color
-    /// </summary>
-    string Color,
-
-    /// <summary>
-    /// Model generation ID
-    /// </summary>
-    int GenerationId
-);
+/// <param name="LicensePlate">Car's license plate</param>
+/// <param name="Color">Car's color</param>
+/// <param name="GenerationId">Model generation ID</param>
+public record CarEditDto(string LicensePlate, string Color, int GenerationId);

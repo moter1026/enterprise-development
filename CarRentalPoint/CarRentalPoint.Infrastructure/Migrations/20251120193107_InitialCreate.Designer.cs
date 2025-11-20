@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarRentalPoint.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251119100534_InitialCreate")]
+    [Migration("20251120193107_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -29,21 +29,26 @@ namespace CarRentalPoint.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CarId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("car_id");
 
                     b.Property<int>("ClientId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("client_id");
 
                     b.Property<int>("RentalHours")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("rental_hours");
 
                     b.Property<DateTime>("RentalStart")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("rental_start");
 
                     b.HasKey("Id");
 
@@ -51,117 +56,137 @@ namespace CarRentalPoint.Infrastructure.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Rentals");
+                    b.ToTable("rental", (string)null);
                 });
 
             modelBuilder.Entity("CarRentalPoint.Domain.Entities.Car", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Color")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("GenerationId")
-                        .HasColumnType("integer");
+                        .HasColumnType("text")
+                        .HasColumnName("color");
 
                     b.Property<string>("LicensePlate")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("license_plate");
+
+                    b.Property<int>("ModelGenerationId")
+                        .HasColumnType("integer")
+                        .HasColumnName("model_generation_id");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GenerationId");
+                    b.HasIndex("ModelGenerationId");
 
-                    b.ToTable("Cars");
+                    b.ToTable("car", (string)null);
                 });
 
             modelBuilder.Entity("CarRentalPoint.Domain.Entities.CarModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BodyType")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("body_type");
 
                     b.Property<int>("CarClass")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("car_class");
 
                     b.Property<int>("DriveType")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("drive_type");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<int>("SeatsCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("seats_count");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarModels");
+                    b.ToTable("car_model", (string)null);
                 });
 
             modelBuilder.Entity("CarRentalPoint.Domain.Entities.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date")
+                        .HasColumnName("birth_date");
 
                     b.Property<string>("DriverLicenseNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("driver_license_number");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("full_name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("client", (string)null);
                 });
 
             modelBuilder.Entity("CarRentalPoint.Domain.Entities.ModelGeneration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("EngineVolume")
-                        .HasColumnType("double precision");
+                    b.Property<int>("CarModelId")
+                        .HasColumnType("integer")
+                        .HasColumnName("car_model_id");
 
-                    b.Property<int>("ModelId")
-                        .HasColumnType("integer");
+                    b.Property<double>("EngineVolume")
+                        .HasColumnType("double precision")
+                        .HasColumnName("engine_volume");
 
                     b.Property<decimal>("RentalCostPerHour")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("rental_cost_per_hour");
 
                     b.Property<string>("TransmissionType")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("transmission_type");
 
                     b.Property<int>("Year")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("year");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModelId");
+                    b.HasIndex("CarModelId");
 
-                    b.ToTable("Generations");
+                    b.ToTable("model_generation", (string)null);
                 });
 
             modelBuilder.Entity("CarRentalPoint.Domain.Contract.Rental", b =>
@@ -169,7 +194,7 @@ namespace CarRentalPoint.Infrastructure.Migrations
                     b.HasOne("CarRentalPoint.Domain.Entities.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CarRentalPoint.Domain.Entities.Client", "Client")
@@ -187,8 +212,8 @@ namespace CarRentalPoint.Infrastructure.Migrations
                 {
                     b.HasOne("CarRentalPoint.Domain.Entities.ModelGeneration", "Generation")
                         .WithMany()
-                        .HasForeignKey("GenerationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("ModelGenerationId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Generation");
@@ -198,7 +223,7 @@ namespace CarRentalPoint.Infrastructure.Migrations
                 {
                     b.HasOne("CarRentalPoint.Domain.Entities.CarModel", "Model")
                         .WithMany()
-                        .HasForeignKey("ModelId")
+                        .HasForeignKey("CarModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

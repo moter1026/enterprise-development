@@ -27,9 +27,14 @@ public class ModelGeneration
     public required string TransmissionType { get; set; }
 
     /// <summary>
+    /// Unique identifier for the car model
+    /// </summary>
+    public required int CarModelId { get; set; }
+
+    /// <summary>
     /// Reference to the car model that this generation belongs to
     /// </summary>
-    public required CarModel Model { get; set; }
+    public CarModel? Model { get; set; }
 
     /// <summary>
     /// Hourly rental cost for vehicles of this model generation

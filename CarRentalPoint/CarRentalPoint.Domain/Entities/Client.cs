@@ -24,6 +24,5 @@ public class Client
     /// <summary>
     /// Date of birth of the client for age verification and record keeping
     /// </summary>
-    public required DateTime BirthDate { get; set; }
-
+    public required DateOnly BirthDate { get; set; }
 }

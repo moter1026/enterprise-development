@@ -45,60 +45,82 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         modelBuilder.Entity<CarModel>(entity =>
         {
+            entity.ToTable("car_model");
+
             entity.HasKey(cm => cm.Id);
-            entity.Property(cm => cm.Name).IsRequired();
-            entity.Property(cm => cm.DriveType).IsRequired();
-            entity.Property(cm => cm.SeatsCount).IsRequired();
-            entity.Property(cm => cm.BodyType).IsRequired();
-            entity.Property(cm => cm.CarClass).IsRequired();
+            entity.Property(cm => cm.Id).HasColumnName("id");
+            entity.Property(cm => cm.Name).HasColumnName("name").IsRequired();
+            entity.Property(cm => cm.DriveType).HasColumnName("drive_type").IsRequired();
+            entity.Property(cm => cm.SeatsCount).HasColumnName("seats_count").IsRequired();
+            entity.Property(cm => cm.BodyType).HasColumnName("body_type").IsRequired();
+            entity.Property(cm => cm.CarClass).HasColumnName("car_class").IsRequired();
         });
 
         modelBuilder.Entity<ModelGeneration>(entity =>
         {
+            entity.ToTable("model_generation");
+
             entity.HasKey(g => g.Id);
-            entity.Property(g => g.Year).IsRequired();
-            entity.Property(g => g.EngineVolume).IsRequired();
-            entity.Property(g => g.TransmissionType).IsRequired();
-            entity.Property(g => g.RentalCostPerHour).IsRequired();
+            entity.Property(g => g.Id).HasColumnName("id");
+            entity.Property(g => g.Year).HasColumnName("year").IsRequired();
+            entity.Property(g => g.EngineVolume).HasColumnName("engine_volume").IsRequired();
+            entity.Property(g => g.TransmissionType).HasColumnName("transmission_type").IsRequired();
+            entity.Property(g => g.RentalCostPerHour).HasColumnName("rental_cost_per_hour").IsRequired();
+            entity.Property(g => g.CarModelId).HasColumnName("car_model_id").IsRequired();
 
             entity.HasOne(g => g.Model)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Cascade);
+                  .WithMany()
+                  .HasForeignKey(g => g.CarModelId)
+                  .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Car>(entity =>
         {
+            entity.ToTable("car");
+
             entity.HasKey(c => c.Id);
-            entity.Property(c => c.LicensePlate).IsRequired();
-            entity.Property(c => c.Color).IsRequired();
+            entity.Property(c => c.Id).HasColumnName("id");
+            entity.Property(c => c.LicensePlate).HasColumnName("license_plate").IsRequired();
+            entity.Property(c => c.Color).HasColumnName("color").IsRequired();
+            entity.Property(c => c.ModelGenerationId).HasColumnName("model_generation_id").IsRequired();
 
             entity.HasOne(c => c.Generation)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
+                  .WithMany()
+                  .HasForeignKey(c => c.ModelGenerationId)
+                  .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Client>(entity =>
         {
+            entity.ToTable("client");
+
             entity.HasKey(c => c.Id);
-            entity.Property(c => c.FullName).IsRequired();
-            entity.Property(c => c.DriverLicenseNumber).IsRequired();
-            entity.Property(c => c.BirthDate).IsRequired();
+            entity.Property(c => c.Id).HasColumnName("id");
+            entity.Property(c => c.FullName).HasColumnName("full_name").IsRequired();
+            entity.Property(c => c.DriverLicenseNumber).HasColumnName("driver_license_number").IsRequired();
+            entity.Property(c => c.BirthDate).HasColumnName("birth_date").IsRequired();
         });
 
         modelBuilder.Entity<Rental>(entity =>
         {
-            entity.HasKey(r => r.Id);
+            entity.ToTable("rental");
 
-            entity.Property(r => r.RentalStart).IsRequired();
-            entity.Property(r => r.RentalHours).IsRequired();
+            entity.HasKey(r => r.Id);
+            entity.Property(r => r.Id).HasColumnName("id");
+            entity.Property(r => r.ClientId).HasColumnName("client_id").IsRequired();
+            entity.Property(r => r.CarId).HasColumnName("car_id").IsRequired();
+            entity.Property(r => r.RentalStart).HasColumnName("rental_start").IsRequired();
+            entity.Property(r => r.RentalHours).HasColumnName("rental_hours").IsRequired();
 
             entity.HasOne(r => r.Client)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Cascade);
+                  .WithMany()
+                  .HasForeignKey(r => r.ClientId)
+                  .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(r => r.Car)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
+                  .WithMany()
+                  .HasForeignKey(r => r.CarId)
+                  .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

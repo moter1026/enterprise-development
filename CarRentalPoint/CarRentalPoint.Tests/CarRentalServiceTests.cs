@@ -22,7 +22,7 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
         var expectedCount = 8;
 
         // Act
-        var result = service.Rentals
+        var result = CarRentalDataSeeder.Rentals
             .Where(r => r.Car.Generation.Model.Id == targetModelId)
             .Select(r => r.Client)
             .Distinct()
@@ -41,7 +41,7 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
     public void GetCarsCurrentlyRented_ShouldReturnActiveRentals()
     {
         // Arrange
-        var rentals = service.Rentals;
+        var rentals = CarRentalDataSeeder.Rentals;
         var currentTime = new DateTime(2024, 1, 15, 14, 0, 0);
         var expectedCount = 3;
 
@@ -73,7 +73,7 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
     public void GetTop5MostFrequentlyRentedCars_ShouldReturnExpectedCars()
     {
         // Arrange
-        var rentals = service.Rentals;
+        var rentals = CarRentalDataSeeder.Rentals;
         var expectedTopCount = 5;
 
         var expectedCars = new List<int>
@@ -109,8 +109,8 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
     public void GetRentalCountPerCar_ShouldReturnCountForEachCar()
     {
         // Arrange
-        var rentals = service.Rentals;
-        var cars = service.Cars;
+        var rentals = CarRentalDataSeeder.Rentals;
+        var cars = CarRentalDataSeeder.Cars;
 
         var expectedRentalCounts = new Dictionary<int, int>
         {
@@ -155,7 +155,7 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
     public void GetTop5ClientsByRentalSum_ShouldReturnCorrectOrder()
     {
         // Arrange
-        var rentals = service.Rentals;
+        var rentals = CarRentalDataSeeder.Rentals;
         var expectedTopCount = 5;
         var expectedLicenseNumber = new List<string>
         {

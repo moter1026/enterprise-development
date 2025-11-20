@@ -11,7 +11,7 @@ namespace CarRentalPoint.Api.Controllers;
 /// API controller for managing model generations of car models.
 /// </summary>
 [ApiController]
-[Route("api/modelgenerations")]
+[Route("api/model-generations")]
 public class ModelGenerationsController(
     IRepository<ModelGeneration> repo,
     IRepository<CarModel> modelRepo,
@@ -24,19 +24,22 @@ public class ModelGenerationsController(
     /// Gets all model generations.
     /// </summary>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<ModelGenerationGetDto>>> GetAll()
     {
         var generations = await repo.Query()
             .Include(g => g.Model)
             .ToListAsync();
 
-        return mapper.Map<List<ModelGenerationGetDto>>(generations);
+        return Ok(mapper.Map<List<ModelGenerationGetDto>>(generations));
     }
 
     /// <summary>
     /// Gets a model generation by ID.
     /// </summary>
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ModelGenerationGetDto>> GetById(int id)
     {
         var generation = await repo.Query()
@@ -46,13 +49,15 @@ public class ModelGenerationsController(
         if (generation == null)
             return NotFound();
 
-        return mapper.Map<ModelGenerationGetDto>(generation);
+        return Ok(mapper.Map<ModelGenerationGetDto>(generation));
     }
 
     /// <summary>
     /// Creates a new model generation.
     /// </summary>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ModelGenerationGetDto>> Create([FromBody] ModelGenerationEditDto dto)
     {
         if (!_allowedTransmissions.Contains(dto.TransmissionType, StringComparer.OrdinalIgnoreCase))
@@ -67,6 +72,7 @@ public class ModelGenerationsController(
             Year = dto.Year,
             EngineVolume = dto.EngineVolume,
             TransmissionType = dto.TransmissionType,
+            CarModelId = model.Id,
             RentalCostPerHour = dto.RentalCostPerHour,
             Model = model
         };
@@ -79,6 +85,9 @@ public class ModelGenerationsController(
     /// Updates an existing model generation.
     /// </summary>
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(int id, [FromBody] ModelGenerationEditDto dto)
     {
         var generation = await repo.GetByIdAsync(id);
@@ -106,13 +115,15 @@ public class ModelGenerationsController(
     /// Deletes a model generation by ID.
     /// </summary>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Delete(int id)
     {
         var generation = await repo.Query().FirstOrDefaultAsync(g => g.Id == id);
         if (generation == null)
-            return NotFound();
+            return NoContent();
 
-        var hasCars = await carRepo.Query().AnyAsync(c => c.Generation.Id == id);
+        var hasCars = await carRepo.Query().AnyAsync(c => c.Generation!.Id == id);
         if (hasCars)
             return BadRequest("Cannot delete ModelGeneration: it has related Cars.");
 

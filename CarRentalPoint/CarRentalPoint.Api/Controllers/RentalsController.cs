@@ -23,41 +23,46 @@ public class RentalsController(
     /// Gets all rentals.
     /// </summary>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<RentalGetDto>>> GetAll()
     {
         var rentals = await repo.Query()
             .Include(r => r.Client)
             .Include(r => r.Car)
-                .ThenInclude(c => c.Generation)
-                    .ThenInclude(g => g.Model)
+                .ThenInclude(c => c!.Generation)
+                    .ThenInclude(g => g!.Model)
             .ToListAsync();
 
-        return mapper.Map<List<RentalGetDto>>(rentals);
+        return Ok(mapper.Map<List<RentalGetDto>>(rentals));
     }
 
     /// <summary>
     /// Gets a rental by ID.
     /// </summary>
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<RentalGetDto>> GetById(int id)
     {
         var rental = await repo.Query()
             .Include(r => r.Client)
             .Include(r => r.Car)
-                .ThenInclude(c => c.Generation)
-                    .ThenInclude(g => g.Model)
+                .ThenInclude(c => c!.Generation)
+                    .ThenInclude(g => g!.Model)
             .FirstOrDefaultAsync(r => r.Id == id);
 
         if (rental == null)
             return NotFound();
 
-        return mapper.Map<RentalGetDto>(rental);
+        return Ok(mapper.Map<RentalGetDto>(rental));
     }
 
     /// <summary>
     /// Creates a new rental.
     /// </summary>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<RentalGetDto>> Create([FromBody] RentalEditDto dto)
     {
         var client = await clientRepo.GetByIdAsync(dto.ClientId);
@@ -66,7 +71,7 @@ public class RentalsController(
 
         var car = await carRepo.Query()
             .Include(c => c.Generation)
-                .ThenInclude(g => g.Model)
+                .ThenInclude(g => g!.Model)
             .FirstOrDefaultAsync(c => c.Id == dto.CarId);
 
         if (car == null)
@@ -74,7 +79,7 @@ public class RentalsController(
 
         var rentalEnd = dto.RentalStart.AddHours(dto.RentalHours);
         var overlappingRental = await repo.Query()
-            .Where(r => r.Car.Id == dto.CarId &&
+            .Where(r => r.Car!.Id == dto.CarId &&
                         r.RentalStart < rentalEnd &&
                         r.RentalStart.AddHours(r.RentalHours) > dto.RentalStart)
             .AnyAsync();
@@ -83,6 +88,8 @@ public class RentalsController(
 
         var rental = new Rental
         {
+            ClientId = dto.ClientId,
+            CarId = dto.CarId,
             Client = client,
             Car = car,
             RentalStart = dto.RentalStart,
@@ -97,11 +104,13 @@ public class RentalsController(
     /// Updates an existing rental.
     /// </summary>
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Update(int id, [FromBody] RentalEditDto dto)
     {
         var rental = await repo.GetByIdAsync(id);
         if (rental == null)
-            return NotFound();
+            return NoContent();
 
         var client = await clientRepo.GetByIdAsync(dto.ClientId);
         if (client == null)
@@ -113,7 +122,7 @@ public class RentalsController(
 
         var rentalEnd = dto.RentalStart.AddHours(dto.RentalHours);
         var overlappingRental = await repo.Query()
-            .Where(r => r.Car.Id == dto.CarId &&
+            .Where(r => r.Car!.Id == dto.CarId &&
                         r.Id != id &&
                         r.RentalStart < rentalEnd &&
                         r.RentalStart.AddHours(r.RentalHours) > dto.RentalStart)
@@ -134,6 +143,8 @@ public class RentalsController(
     /// Deletes a rental by ID.
     /// </summary>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
         var rental = await repo.GetByIdAsync(id);

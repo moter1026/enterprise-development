@@ -3,29 +3,15 @@
 /// <summary>
 /// DTO representing a client along with their total rental cost
 /// </summary>
+/// <param name="Id">Unique identifier of the client</param>
+/// <param name="FullName">Full name of the client</param>
+/// <param name="DriverLicenseNumber">Driver license number of the client</param>
+/// <param name="BirthDate">Birth date of the client</param>
+/// <param name="TotalRentalCost">Total rental cost accumulated by the client</param>
 public record TopClientRentalSumDto(
-    /// <summary>
-    /// Unique identifier of the client
-    /// </summary>
     int Id,
-
-    /// <summary>
-    /// Full name of the client
-    /// </summary>
     string FullName,
-
-    /// <summary>
-    /// Driver license number of the client
-    /// </summary>
     string DriverLicenseNumber,
-
-    /// <summary>
-    /// Birth date of the client
-    /// </summary>
-    DateTime BirthDate,
-
-    /// <summary>
-    /// Total rental cost accumulated by the client
-    /// </summary>
+    DateOnly BirthDate,
     decimal TotalRentalCost
 );

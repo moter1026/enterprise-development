@@ -5,6 +5,7 @@ using CarRentalPoint.Domain.Interfaces;
 using CarRentalPoint.Infrastructure.Persistence;
 using CarRentalPoint.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,14 @@ builder.Services.AddScoped<IRepository<Rental>, EfRepository<Rental>>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+    c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+});
 
 var app = builder.Build();
 
@@ -37,11 +45,11 @@ using (var scope = app.Services.CreateScope())
     await DbSeeder.SeedAllAsync(db);
 }
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarRentalPoint V1");
+});
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

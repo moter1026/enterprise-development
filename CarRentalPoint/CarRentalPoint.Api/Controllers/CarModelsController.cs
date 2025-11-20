@@ -12,7 +12,7 @@ namespace CarRentalPoint.Api.Controllers;
 /// API controller for managing car models.
 /// </summary>
 [ApiController]
-[Route("api/carmodels")]
+[Route("api/car-models")]
 public class CarModelsController(
     IRepository<CarModel> carModelRepo,
     IRepository<ModelGeneration> genRepo,
@@ -23,10 +23,11 @@ public class CarModelsController(
     /// </summary>
     /// <returns>List of all car models.</returns>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<CarModelGetDto>>> GetAll()
     {
-        var models = await carModelRepo.Query().ToListAsync();
-        return mapper.Map<List<CarModelGetDto>>(models);
+        var models = await carModelRepo.GetAllAsync();
+        return Ok(mapper.Map<List<CarModelGetDto>>(models));
     }
 
     /// <summary>
@@ -35,13 +36,15 @@ public class CarModelsController(
     /// <param name="id">The ID of the car model.</param>
     /// <returns>The car model if found, otherwise 404.</returns>
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CarModelGetDto>> GetById(int id)
     {
         var model = await carModelRepo.GetByIdAsync(id);
         if (model == null)
             return NotFound();
 
-        return mapper.Map<CarModelGetDto>(model);
+        return Ok(mapper.Map<CarModelGetDto>(model));
     }
 
     /// <summary>
@@ -50,10 +53,19 @@ public class CarModelsController(
     /// <param name="dto">The data for creating the car model.</param>
     /// <returns>The created car model.</returns>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CarModelGetDto>> Create([FromBody] CarModelEditDto dto)
     {
-        if (!TryParseCarModelEnums(dto, out var driveType, out var bodyType, out var carClass, out var error))
+        if (!EnumHelper.TryParseEnum<CarDriveType>(dto.DriveType, out var driveType, out var error))
             return BadRequest(error);
+
+        if (!EnumHelper.TryParseEnum<CarBodyType>(dto.BodyType, out var bodyType, out error))
+            return BadRequest(error);
+
+        if (!EnumHelper.TryParseEnum<CarClass>(dto.CarClass, out var carClass, out error))
+            return BadRequest(error);
+
 
         var model = new CarModel
         {
@@ -80,14 +92,24 @@ public class CarModelsController(
     /// <param name="dto">The updated data for the car model.</param>
     /// <returns>NoContent if successful, 404 if not found, 400 if enums are invalid.</returns>
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(int id, [FromBody] CarModelEditDto dto)
     {
         var model = await carModelRepo.GetByIdAsync(id);
         if (model == null)
             return NotFound();
 
-        if (!TryParseCarModelEnums(dto, out var driveType, out var bodyType, out var carClass, out var error))
+        if (!EnumHelper.TryParseEnum<CarDriveType>(dto.DriveType, out var driveType, out var error))
             return BadRequest(error);
+
+        if (!EnumHelper.TryParseEnum<CarBodyType>(dto.BodyType, out var bodyType, out error))
+            return BadRequest(error);
+
+        if (!EnumHelper.TryParseEnum<CarClass>(dto.CarClass, out var carClass, out error))
+            return BadRequest(error);
+
 
         model.Name = dto.Name;
         model.DriveType = driveType;
@@ -105,53 +127,19 @@ public class CarModelsController(
     /// <param name="id">The ID of the car model to delete.</param>
     /// <returns>NoContent if deleted, 404 if not found, 400 if it has related generations.</returns>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Delete(int id)
     {
         var model = await carModelRepo.Query().FirstOrDefaultAsync(m => m.Id == id);
         if (model == null)
-            return NotFound();
+            return NoContent();
 
-        var hasGenerations = await genRepo.Query().AnyAsync(g => g.Model.Id == id);
+        var hasGenerations = await genRepo.Query().AnyAsync(g => g.Model!.Id == id);
         if (hasGenerations)
             return BadRequest("Cannot delete CarModel: it has related ModelGenerations.");
 
         await carModelRepo.DeleteAsync(model);
         return NoContent();
-    }
-
-    /// <summary>
-    /// Tries to parse string enum values from DTO into strongly-typed enums.
-    /// </summary>
-    private bool TryParseCarModelEnums(
-        CarModelEditDto dto,
-        out CarDriveType driveType,
-        out CarBodyType bodyType,
-        out CarClass carClass,
-        out string error)
-    {
-        error = "";
-        driveType = default;
-        bodyType = default;
-        carClass = default;
-
-        if (!Enum.TryParse<CarDriveType>(dto.DriveType, true, out driveType))
-        {
-            error = $"Invalid DriveType: {dto.DriveType}. Allowed: {string.Join(", ", Enum.GetNames(typeof(CarDriveType)))}";
-            return false;
-        }
-
-        if (!Enum.TryParse<CarBodyType>(dto.BodyType, true, out bodyType))
-        {
-            error = $"Invalid BodyType: {dto.BodyType}. Allowed: {string.Join(", ", Enum.GetNames(typeof(CarBodyType)))}";
-            return false;
-        }
-
-        if (!Enum.TryParse<CarClass>(dto.CarClass, true, out carClass))
-        {
-            error = $"Invalid CarClass: {dto.CarClass}. Allowed: {string.Join(", ", Enum.GetNames(typeof(CarClass)))}";
-            return false;
-        }
-
-        return true;
     }
 }

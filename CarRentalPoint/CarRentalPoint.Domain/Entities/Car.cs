@@ -22,7 +22,12 @@ public class Car
     public required string Color { get; set; }
 
     /// <summary>
+    /// Unique identifier for the car model generation
+    /// </summary>
+    public required int ModelGenerationId { get; set; }
+
+    /// <summary>
     /// Technical specifications and model information of the car
     /// </summary>
-    public required ModelGeneration Generation { get; set; }
+    public ModelGeneration? Generation { get; set; }
 }

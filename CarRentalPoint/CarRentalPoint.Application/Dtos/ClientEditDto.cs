@@ -3,19 +3,11 @@
 /// <summary>
 /// DTO for editing client details
 /// </summary>
+/// <param name="FullName">Full name of the client</param>
+/// <param name="DriverLicenseNumber">Driver license number of the client</param>
+/// <param name="BirthDate">Birth date of the client</param>
 public record ClientEditDto(
-    /// <summary>
-    /// Full name of the client
-    /// </summary>
     string FullName,
-
-    /// <summary>
-    /// Driver license number of the client
-    /// </summary>
     string DriverLicenseNumber,
-
-    /// <summary>
-    /// Birth date of the client
-    /// </summary>
-    DateTime BirthDate
+    DateOnly BirthDate
 );
