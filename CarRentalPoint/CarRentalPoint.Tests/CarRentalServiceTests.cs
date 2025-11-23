@@ -22,9 +22,15 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
         var expectedCount = 8;
 
         // Act
-        var result = CarRentalDataSeeder.Rentals
-            .Where(r => r.Car.Generation.Model.Id == targetModelId)
-            .Select(r => r.Client)
+        var result = CarRentalDataSeeder.Rentals.Select(r =>
+            {
+                var car = CarRentalDataSeeder.Cars.First(c => c.Id == r.CarId);
+                var generation = CarRentalDataSeeder.ModelGenerations.First(g => g.Id == car.ModelGenerationId);
+                var modelId = generation.CarModelId;
+                return new { r, modelId };
+            })
+            .Where(x => x.modelId == targetModelId)
+            .Select(x => CarRentalDataSeeder.Clients.First(c => c.Id == x.r.ClientId))
             .Distinct()
             .OrderBy(c => c.FullName)
             .ToList();
@@ -46,9 +52,12 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
         var expectedCount = 3;
 
         // Act
-        var activeRentals = rentals
-            .Where(r => IsRentalActive(r, currentTime))
-            .Select(r => r.Car)
+        var activeRentals = CarRentalDataSeeder.Rentals.Where(r =>
+            {
+                var rentalEnd = r.RentalStart.AddHours(r.RentalHours);
+                return r.RentalStart <= currentTime && currentTime <= rentalEnd;
+            })
+            .Select(r => CarRentalDataSeeder.Cars.First(c => c.Id == r.CarId))
             .Distinct()
             .ToList();
 
@@ -82,17 +91,15 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
         };
 
         // Act
-        var topCars = rentals
-            .GroupBy(r => r.Car.Id)
+        var topCars = CarRentalDataSeeder.Rentals.GroupBy(r => r.CarId)
             .Select(g => new
-             {
-                 CarId = g.Key,
-                 RentalCount = g.Count(),
-                 g.First().Car
+            {
+                CarId = g.Key,
+                RentalCount = g.Count()
             })
             .OrderByDescending(x => x.RentalCount)
             .Take(5)
-            .Select(x => x.Car)
+            .Select(x => CarRentalDataSeeder.Cars.First(c => c.Id == x.CarId))
             .ToList();
 
         // Assert
@@ -129,22 +136,13 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
         };
 
         // Act
-        var rentalCounts = rentals
-            .GroupBy(r => r.Car.Id)
-            .Select(g => new
-            {
-                CarId = g.Key,
-                RentalCount = g.Count(),
-                g.First().Car
-            })
-            .ToList();
-
-        var totalRentals = rentalCounts.Sum(x => x.RentalCount);
+        var rentalCounts = rentals.GroupBy(r => r.CarId)
+            .ToDictionary(g => g.Key, g => g.Count());
 
         // Assert
-        Assert.Equal(rentals.Count, totalRentals);
+        Assert.Equal(rentals.Count, rentalCounts.Values.Sum());
 
-        Assert.Equal(expectedRentalCounts, rentalCounts.ToDictionary(x => x.CarId, x => x.RentalCount));
+        Assert.Equal(expectedRentalCounts, rentalCounts);
     }
 
     /// <summary>
@@ -167,24 +165,25 @@ public class CarRentalServiceTests(CarRentalDataSeeder service) : IClassFixture<
         };
 
         // Act
-        var topClients = rentals
-            .GroupBy(r => r.Client.DriverLicenseNumber)
-            .Select(g => new
+        var topClients = CarRentalDataSeeder.Rentals.GroupBy(r => r.ClientId)
+            .Select(g =>
             {
-                ClientLicenseNumber = g.Key,
-                TotalRentalCost = g.Sum(r => r.TotalCost),
-                g.First().Client
+                var total = g.Sum(r =>
+                {
+                    var car = CarRentalDataSeeder.Cars.First(c => c.Id == r.CarId);
+                    var gen = CarRentalDataSeeder.ModelGenerations.First(m => m.Id == car.ModelGenerationId);
+                    return gen.RentalCostPerHour * r.RentalHours;
+                });
+                var client = CarRentalDataSeeder.Clients.First(c => c.Id == g.Key);
+                return new { Client = client, Total = total };
             })
-            .OrderByDescending(x => x.TotalRentalCost)
+            .OrderByDescending(x => x.Total)
             .Take(5)
             .Select(x => x.Client)
             .ToList();
 
         // Assert
         Assert.Equal(expectedTopCount, topClients.Count);
-        Assert.Equal(
-            expectedLicenseNumber,
-            topClients.Select(c => c.DriverLicenseNumber)
-        );
+        Assert.Equal(expectedLicenseNumber, topClients.Select(c => c.DriverLicenseNumber));
     }
 }
