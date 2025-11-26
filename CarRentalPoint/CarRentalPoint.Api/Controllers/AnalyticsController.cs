@@ -39,23 +39,27 @@ public class AnalyticsController(
     }
 
     /// <summary>
-    /// Gets a list of cars that are currently rented at the specified time.
+    /// Gets a list of cars that are currently rented.
     /// </summary>
-    /// <param name="currentTime">The current time to check for active rentals.</param>
     /// <returns>List of cars currently rented, including generation and model details.</returns>
     [HttpGet("active-rentals")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<CarGetDto>>> GetCarsCurrentlyRented([FromQuery] DateTime currentTime)
+    public async Task<ActionResult<List<CarGetDto>>> GetCarsCurrentlyRented()
     {
-        var activeRentals = await rentalRepo.Query()
-            .Where(r => r.IsActive && r.Car != null)
-            .Select(r => r.Car!)
-            .Distinct()
-            .Include(c => c.Generation)
+        var rentals = await rentalRepo.Query()
+            .Where(r => r.Car != null)
+            .Include(r => r.Car!.Generation)
                 .ThenInclude(g => g!.Model)
             .ToListAsync();
 
-        return Ok(mapper.Map<List<CarGetDto>>(activeRentals));
+        var activeCars = rentals
+            .Where(r => r.IsActive)
+            .Select(r => r.Car!)
+            .GroupBy(c => c.Id)
+            .Select(g => g.First())
+            .ToList();
+
+        return Ok(mapper.Map<List<CarGetDto>>(activeCars));
     }
 
     /// <summary>
@@ -69,7 +73,7 @@ public class AnalyticsController(
         var topCars = await rentalRepo.Query()
             .GroupBy(r => r.CarId)
             .Select(g => new
-            {
+            {   
                 CarId = g.Key,
                 Count = g.Count()
             })
@@ -125,8 +129,15 @@ public class AnalyticsController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<TopClientRentalSumDto>>> GetTopClientsByRentalSum()
     {
-        var result = await rentalRepo.Query()
-            .GroupBy(r => new { r.Client!.Id, r.Client.FullName, r.Client.DriverLicenseNumber, r.Client.BirthDate })
+        var rentals = await rentalRepo.Query()
+            .Where(r => r.Client != null && r.Car != null && r.Car.Generation != null)
+            .Include(r => r.Client)
+            .Include(r => r.Car)
+                .ThenInclude(c => c!.Generation)
+            .ToListAsync();
+
+        var result = rentals
+            .GroupBy(r => r.Client!)
             .Select(g => new TopClientRentalSumDto(
                 g.Key.Id,
                 g.Key.FullName,
@@ -136,7 +147,7 @@ public class AnalyticsController(
             ))
             .OrderByDescending(x => x.TotalRentalCost)
             .Take(5)
-            .ToListAsync();
+            .ToList();
 
         return Ok(result);
     }

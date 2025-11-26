@@ -12,9 +12,8 @@ public static class EnumHelper
         out string error) where TEnum : struct, Enum
     {
         error = "";
-        result = default;
 
-        if (!Enum.TryParse<TEnum>(value, true, out result))
+        if (!Enum.TryParse(value, true, out result))
         {
             error = $"Invalid value: {value}. Allowed: {string.Join(", ", Enum.GetNames(typeof(TEnum)))}";
             return false;

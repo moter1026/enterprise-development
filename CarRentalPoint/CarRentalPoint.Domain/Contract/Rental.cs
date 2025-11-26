@@ -1,4 +1,5 @@
 ﻿using CarRentalPoint.Domain.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarRentalPoint.Domain.Contract;
 
@@ -47,6 +48,7 @@ public class Rental
     /// Indicates whether the rental is currently active
     /// Returns true if current time is before the rental end date
     /// </summary>
+    [NotMapped]
     public bool IsActive => DateTime.Now < RentalStart.AddHours(RentalHours);
 
     /// <summary>

@@ -1,4 +1,6 @@
-﻿namespace CarRentalPoint.Application.Dtos;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CarRentalPoint.Application.Dtos;
 
 /// <summary>
 /// DTO for retrieving rental details

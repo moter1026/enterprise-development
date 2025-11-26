@@ -30,10 +30,16 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    var basePath = AppContext.BaseDirectory;
 
-    c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+    var xmlApi = Path.Combine(basePath, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
+    c.IncludeXmlComments(xmlApi, includeControllerXmlComments: true);
+
+    var xmlApplication = Path.Combine(basePath, "CarRentalPoint.Application.xml");
+    if (File.Exists(xmlApplication))
+    {
+        c.IncludeXmlComments(xmlApplication);
+    }
 });
 
 var app = builder.Build();

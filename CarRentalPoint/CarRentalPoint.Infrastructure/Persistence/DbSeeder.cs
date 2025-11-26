@@ -1,8 +1,5 @@
-﻿using CarRentalPoint.Domain.Contract;
-using CarRentalPoint.Domain.Entities;
-using CarRentalPoint.Domain.InitialData;
+﻿using CarRentalPoint.Domain.InitialData;
 using Microsoft.EntityFrameworkCore;
-
 namespace CarRentalPoint.Infrastructure.Persistence;
 
 /// <summary>
@@ -20,6 +17,7 @@ public static class DbSeeder
         {
             await context.CarModels.AddRangeAsync(CarRentalDataSeeder.CarModels);
             await context.SaveChangesAsync();
+            await context.Database.ExecuteSqlRawAsync("SELECT setval('car_model_id_seq', (SELECT MAX(id) FROM car_model))");
         }
     }
 
@@ -33,6 +31,7 @@ public static class DbSeeder
         {
             await context.Generations.AddRangeAsync(CarRentalDataSeeder.ModelGenerations);
             await context.SaveChangesAsync();
+            await context.Database.ExecuteSqlRawAsync("SELECT setval('model_generation_id_seq', (SELECT MAX(id) FROM model_generation))");
         }
     }
 
@@ -46,6 +45,7 @@ public static class DbSeeder
         {
             await context.Cars.AddRangeAsync(CarRentalDataSeeder.Cars);
             await context.SaveChangesAsync();
+            await context.Database.ExecuteSqlRawAsync("SELECT setval('car_id_seq', (SELECT MAX(id) FROM car))");
         }
     }
 
@@ -60,6 +60,7 @@ public static class DbSeeder
         {
             await context.Clients.AddRangeAsync(CarRentalDataSeeder.Clients);
             await context.SaveChangesAsync();
+            await context.Database.ExecuteSqlRawAsync("SELECT setval('client_id_seq', (SELECT MAX(id) FROM client))");
         }
     }
 
@@ -73,6 +74,7 @@ public static class DbSeeder
         {
             await context.Rentals.AddRangeAsync(CarRentalDataSeeder.Rentals);
             await context.SaveChangesAsync();
+            await context.Database.ExecuteSqlRawAsync("SELECT setval('rental_id_seq', (SELECT MAX(id) FROM rental))");
         }
     }
 

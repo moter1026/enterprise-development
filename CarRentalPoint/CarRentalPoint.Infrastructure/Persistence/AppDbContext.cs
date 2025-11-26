@@ -46,7 +46,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<CarModel>(entity =>
         {
             entity.ToTable("car_model");
-
             entity.HasKey(cm => cm.Id);
             entity.Property(cm => cm.Id).HasColumnName("id");
             entity.Property(cm => cm.Name).HasColumnName("name").IsRequired();
@@ -59,7 +58,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<ModelGeneration>(entity =>
         {
             entity.ToTable("model_generation");
-
             entity.HasKey(g => g.Id);
             entity.Property(g => g.Id).HasColumnName("id");
             entity.Property(g => g.Year).HasColumnName("year").IsRequired();
@@ -67,7 +65,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(g => g.TransmissionType).HasColumnName("transmission_type").IsRequired();
             entity.Property(g => g.RentalCostPerHour).HasColumnName("rental_cost_per_hour").IsRequired();
             entity.Property(g => g.CarModelId).HasColumnName("car_model_id").IsRequired();
-
             entity.HasOne(g => g.Model)
                   .WithMany()
                   .HasForeignKey(g => g.CarModelId)
@@ -77,13 +74,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<Car>(entity =>
         {
             entity.ToTable("car");
-
             entity.HasKey(c => c.Id);
             entity.Property(c => c.Id).HasColumnName("id");
             entity.Property(c => c.LicensePlate).HasColumnName("license_plate").IsRequired();
             entity.Property(c => c.Color).HasColumnName("color").IsRequired();
             entity.Property(c => c.ModelGenerationId).HasColumnName("model_generation_id").IsRequired();
-
             entity.HasOne(c => c.Generation)
                   .WithMany()
                   .HasForeignKey(c => c.ModelGenerationId)
@@ -93,7 +88,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<Client>(entity =>
         {
             entity.ToTable("client");
-
             entity.HasKey(c => c.Id);
             entity.Property(c => c.Id).HasColumnName("id");
             entity.Property(c => c.FullName).HasColumnName("full_name").IsRequired();
@@ -104,19 +98,16 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<Rental>(entity =>
         {
             entity.ToTable("rental");
-
             entity.HasKey(r => r.Id);
             entity.Property(r => r.Id).HasColumnName("id");
             entity.Property(r => r.ClientId).HasColumnName("client_id").IsRequired();
             entity.Property(r => r.CarId).HasColumnName("car_id").IsRequired();
             entity.Property(r => r.RentalStart).HasColumnName("rental_start").IsRequired();
             entity.Property(r => r.RentalHours).HasColumnName("rental_hours").IsRequired();
-
             entity.HasOne(r => r.Client)
                   .WithMany()
                   .HasForeignKey(r => r.ClientId)
                   .OnDelete(DeleteBehavior.Cascade);
-
             entity.HasOne(r => r.Car)
                   .WithMany()
                   .HasForeignKey(r => r.CarId)
