@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-CarRentalPoint.Grpc.Client-d8ff546b-d35d-4712-8f68-93145ea23a52</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<Protobuf Include="..\CarRentalPoint.Api.Grpc\Protos\data.proto" GrpcServices="Client" />
+    <PackageReference Include="Bogus" Version="35.6.5" />
+    <PackageReference Include="Google.Protobuf" Version="3.33.1" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.71.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.76.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarRentalPoint.ServiceDefaults\CarRentalPoint.ServiceDefaults.csproj" />
+  </ItemGroup>
+</Project>

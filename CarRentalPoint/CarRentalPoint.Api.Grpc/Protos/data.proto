@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option csharp_namespace = "CarRentalPoint.Api.Grpc";
+
+message RentalRequest {
+    int32 clientId = 1;
+    int32 carId = 2;
+    string rentalStart = 3;
+    int32 rentalHours = 4;
+}
+
+message RentalResponse {
+    bool success = 1;
+    string error = 2;
+}
+
+message ClientRequest {
+    string fullName = 1;
+    string driverLicenseNumber = 2;
+    string birthDate = 3;
+}
+
+message ClientResponse {
+    bool success = 1;
+    string error = 2;
+}
+
+message CarRequest {
+    string licensePlate = 1;
+    string color = 2;
+    int32 generationId = 3;
+}
+
+message CarResponse {
+    bool success = 1;
+    string error = 2;
+}
+
+service RentalReceiver {
+    rpc StreamRentals (stream RentalRequest) returns (stream RentalResponse);
+    rpc StreamClients (stream ClientRequest) returns (stream ClientResponse);
+    rpc StreamCars (stream CarRequest) returns (stream CarResponse);
+}

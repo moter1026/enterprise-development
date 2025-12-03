@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Api", "CarRentalPoint.Api\CarRentalPoint.Api.csproj", "{116AAC30-7BF9-449A-BF95-A9AAAC47E07F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalPoint.AppHost", "CarRentalPoint.AppHost\CarRentalPoint.AppHost.csproj", "{5FEC7B72-2578-4391-954D-EB62B9C2BAAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.AppHost", "CarRentalPoint.AppHost\CarRentalPoint.AppHost.csproj", "{5FEC7B72-2578-4391-954D-EB62B9C2BAAF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.ServiceDefaults", "CarRentalPoint.ServiceDefaults\CarRentalPoint.ServiceDefaults.csproj", "{22FEC2AC-AA90-4C27-B9DF-9F6049A9C473}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalPoint.Grpc.Client", "CarRentalPoint.Grpc.Client\CarRentalPoint.Grpc.Client.csproj", "{31F37BD7-4B35-41C8-AAF7-A371EB2E10F2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalPoint.Api.Grpc", "CarRentalPoint.Api.Grpc\CarRentalPoint.Api.Grpc.csproj", "{A5FD1590-D273-4059-9163-EAB477F1BCEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{22FEC2AC-AA90-4C27-B9DF-9F6049A9C473}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22FEC2AC-AA90-4C27-B9DF-9F6049A9C473}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22FEC2AC-AA90-4C27-B9DF-9F6049A9C473}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31F37BD7-4B35-41C8-AAF7-A371EB2E10F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31F37BD7-4B35-41C8-AAF7-A371EB2E10F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31F37BD7-4B35-41C8-AAF7-A371EB2E10F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31F37BD7-4B35-41C8-AAF7-A371EB2E10F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5FD1590-D273-4059-9163-EAB477F1BCEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5FD1590-D273-4059-9163-EAB477F1BCEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5FD1590-D273-4059-9163-EAB477F1BCEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5FD1590-D273-4059-9163-EAB477F1BCEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
