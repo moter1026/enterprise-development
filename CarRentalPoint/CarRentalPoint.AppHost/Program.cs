@@ -1,3 +1,5 @@
+using Aspire.Hosting;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var rentalConfig = builder.Configuration.GetSection("RentalReceiver");
@@ -19,20 +21,15 @@ var postgresDb = postgres.AddDatabase("CarRentalPointDB");
 
 var api = builder.AddProject<Projects.CarRentalPoint_Api>("CarRentalPointApi")
     .WithReference(postgresDb, "DefaultConnection")
-    .WaitFor(postgresDb);
-
-var grpcReceiver = builder.AddProject<Projects.CarRentalPoint_Api_Grpc>("CarRentalPointApiGrpc")
     .WithEnvironment("RentalReceiver__BatchSize", batchSizeParam)
     .WithEnvironment("RentalReceiver__PayloadLimitBytes", payloadLimitParam)
     .WithEnvironment("RentalReceiver__MaxReceiveMessageSizeBytes", maxReceiveSizeParam)
     .WithEnvironment("RentalReceiver__MaxSendMessageSizeBytes", maxSendSizeParam)
-    .WithReference(postgresDb, "DefaultConnection")
     .WaitFor(postgresDb);
 
 builder.AddProject<Projects.CarRentalPoint_Grpc_Client>("CarRentalPointGrpcClient")
-    .WithEnvironment("WORKER_DELAY_SECONDS", workerDelayParam)
-    .WithReference(grpcReceiver)
-    .WaitFor(grpcReceiver)
-    .WithExplicitStart();
+    .WithEnvironment("WorkerDelaySeconds", workerDelayParam)
+    .WithEnvironment("ApiGrpcUrl", api.GetEndpoint("https"))
+    .WaitFor(api);
 
 builder.Build().Run();

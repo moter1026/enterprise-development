@@ -1,5 +1,6 @@
 using CarRentalPoint.Api.Grpc;
 using CarRentalPoint.Grpc.Client;
+using Grpc.Net.Client;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -8,9 +9,9 @@ builder.Services.AddHostedService<Worker>();
 
 builder.Services.AddSingleton(serviceProvider =>
 {
-    var grpcUrl = Environment.GetEnvironmentVariable("services__CarRentalPointApiGrpc__http__0") ?? 
-        throw new InvalidOperationException("Grpc URL not found");
-    var channel = Grpc.Net.Client.GrpcChannel.ForAddress(grpcUrl);
+    var apiGrpcUrl = builder.Configuration["ApiGrpcUrl"] ??
+        throw new InvalidOperationException("ApiGrpcUrl not found");
+    var channel = GrpcChannel.ForAddress(apiGrpcUrl);
     return new RentalReceiver.RentalReceiverClient(channel);
 });
 

@@ -5,7 +5,7 @@ using Google.Protobuf;
 using Grpc.Core;
 using Microsoft.Extensions.Options;
 
-namespace CarRentalPoint.Api.Grpc.Services;
+namespace CarRentalPoint.Api.Grpc;
 
 /// <summary>
 /// gRPC service for receiving rentals, clients, and cars via streaming.

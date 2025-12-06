@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<Protobuf Include="..\CarRentalPoint.Api.Grpc\Protos\data.proto" GrpcServices="Client" />
+	<Protobuf Include="..\CarRentalPoint.Grpc.Protos\Protos\data.proto" GrpcServices="Client" />
+	<AspireServiceDefaults Include="GrpcDefaultConnection" />
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="Google.Protobuf" Version="3.33.1" />
     <PackageReference Include="Grpc.Net.Client" Version="2.71.0" />

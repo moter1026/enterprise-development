@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
 
@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarRentalPoint.Api.Grpc\CarRentalPoint.Api.Grpc.csproj" />
     <ProjectReference Include="..\CarRentalPoint.Api\CarRentalPoint.Api.csproj" />
     <ProjectReference Include="..\CarRentalPoint.Grpc.Client\CarRentalPoint.Grpc.Client.csproj" />
   </ItemGroup>

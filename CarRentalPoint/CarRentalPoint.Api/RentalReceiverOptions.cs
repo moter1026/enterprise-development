@@ -1,4 +1,6 @@
-﻿namespace CarRentalPoint.Api.Grpc;
+﻿using CarRentalPoint.Api.Grpc;
+
+namespace CarRentalPoint.Api;
 
 /// <summary>
 /// Configuration options used by <see cref="RentalReceiverGrpcService"/> to control

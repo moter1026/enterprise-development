@@ -22,10 +22,10 @@ public class Worker(
 
     /// <summary>
     /// Delay between each generated request, configurable via
-    /// the WORKER_DELAY_SECONDS environment variable.
+    /// the WorkerDelaySeconds environment variable.
     /// </summary>
     private readonly TimeSpan _delay = TimeSpan.FromSeconds(
-        config.GetValue<int?>("WORKER_DELAY_SECONDS") ?? 1);
+        config.GetValue<int?>("WorkerDelaySeconds") ?? 1);
 
     /// <summary>
     /// Random instance used to pick which type of message will be sent.

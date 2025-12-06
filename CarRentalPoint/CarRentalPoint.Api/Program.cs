@@ -1,3 +1,5 @@
+using CarRentalPoint.Api;
+using CarRentalPoint.Api.Grpc;
 using CarRentalPoint.Application.Mappers;
 using CarRentalPoint.Domain.Contract;
 using CarRentalPoint.Domain.Entities;
@@ -11,6 +13,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+builder.Services.Configure<RentalReceiverOptions>(builder.Configuration.GetSection("RentalReceiver"));
+builder.Configuration.AddEnvironmentVariables();
+
+var rpcOptions = builder.Configuration.GetSection("RentalReceiver").Get<RentalReceiverOptions>();
+
+builder.Services.AddGrpc(options =>
+{
+    options.MaxReceiveMessageSize = rpcOptions?.MaxReceiveMessageSizeBytes;
+    options.MaxSendMessageSize = rpcOptions?.MaxSendMessageSizeBytes;
+});
+
+builder.Services.AddScoped<RentalReceiverGrpcService>();
+
 builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "DefaultConnection");
 
 builder.Services.AddAutoMapper(cfg =>
@@ -23,7 +38,6 @@ builder.Services.AddScoped<IRepository<ModelGeneration>, EfRepository<ModelGener
 builder.Services.AddScoped<IRepository<Car>, EfRepository<Car>>();
 builder.Services.AddScoped<IRepository<Client>, EfRepository<Client>>();
 builder.Services.AddScoped<IRepository<Rental>, EfRepository<Rental>>();
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -56,6 +70,9 @@ app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarRentalPoint V1");
 });
+
+app.MapGrpcService<RentalReceiverGrpcService>();
+app.MapGet("/", () => "gRPC service running");
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
